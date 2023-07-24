@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"baseUrl": "./src",
+		"declaration": true,
+		"esModuleInterop": true,
+		"jsx": "react",
+		"lib": ["es2020", "dom"],
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"outDir": "dist",
+		"sourceMap": true,
+		"strict": true,
+		"target": "es2020",
+		"typeRoots": ["./node_modules/@types", "./src/@types", "./dist"]
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"]
+}
