@@ -10,3 +10,8 @@ export function stringifyData(data: Data[]) {
 		})
 		.join('~~~');
 }
+
+export function isCanvasSupported() {
+	const e = document.createElement('canvas');
+	return !(!e.getContext || !e.getContext('2d'));
+}

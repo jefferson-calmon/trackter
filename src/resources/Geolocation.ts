@@ -1,4 +1,4 @@
-import { GeoLocationData } from 'types/geolocation';
+import { GeoLocationData } from '../types/geolocation';
 
 export class Geolocation {
 	async geolocation() {

@@ -1,8 +1,8 @@
 import { config } from './config';
 import { IdentifyOptions } from 'types/identify';
 
-import Identify from './Identify';
-import Geolocation from './Geolocation';
+import Identify from './resources/Identify';
+import Geolocation from './resources/Geolocation';
 
 config();
 
