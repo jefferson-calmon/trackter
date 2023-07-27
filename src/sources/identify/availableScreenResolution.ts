@@ -1,7 +1,7 @@
 import { IdentifyOptions } from 'types/identify';
 
 export function availableScreenResolutionSource(options: IdentifyOptions) {
-	let availableResolution;
+	let availableResolution: number[] = [];
 
 	if (screen.availWidth && screen.availHeight) {
 		if (options.detectScreenOrientation) {

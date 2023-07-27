@@ -1,5 +1,11 @@
 export interface IdentifyOptions {
 	exclude?: DataKey[];
+	detectScreenOrientation?: boolean;
+	extendedJsFonts?: boolean;
+	userDefinedFonts?: string[];
+
+	swfContainerId?: string;
+	swfPath?: string;
 }
 
 export interface IdentifyResult {
@@ -54,4 +60,27 @@ export type DataKey =
 	| 'timezoneOffset'
 	| 'touchSupport'
 	| 'userAgent'
-	| 'webgl';
+	| 'domBlockers'
+	| 'architecture'
+	| 'audio'
+	| 'fontPreferences'
+	| 'screenFrame'
+	| 'osCpu'
+	| 'deviceMemory'
+	| 'vendor'
+	| 'vendorFlavors'
+	| 'languages'
+	| 'cookies'
+	| 'hdr'
+	| 'colorGamut'
+	| 'invertedColors'
+	| 'forcedColors'
+	| 'monochrome'
+	| 'contrast'
+	| 'reducedMotion'
+	| 'math'
+	| 'webglExtensions'
+	| 'webglBasis'
+	| 'pdfViewerEnabled'
+	| 'privateClickMeasurement'
+	| 'applePay';

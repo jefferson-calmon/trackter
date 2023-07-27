@@ -13,20 +13,23 @@ export class Identify {
 		this.options = Object.assign(options || {}, C.defaultOptions);
 
 		const exclude = this.options.exclude || [];
-
 		const sources = Object.entries(S.sources).filter(
-			([key]) => !exclude.find((k) => k === key)
+			([key]) => !exclude.includes(key as T.DataKey)
 		);
 
-		const dataList = await Promise.all(
-			sources.map(async ([key, value]) => ({
-				key,
-				value: await value(this.options),
-			}))
-		).then((dataList) => dataList as T.Data[]);
+		const components = await Promise.all(
+			sources.map(async ([key, getter]) => {
+				const result = await getter(this.options);
+				const isFunction = typeof result === 'function';
 
-		const data = arrayToObject<T.IdentifyData>(dataList);
-		const dataString = U.stringifyData(dataList);
+				const value = isFunction ? await result() : result;
+
+				return { key, value } as T.Data;
+			})
+		);
+
+		const data = arrayToObject<T.IdentifyData>(components);
+		const dataString = U.stringifyData(components);
 
 		const confidence = this.confidence(String(data.platform));
 

@@ -1,70 +1,103 @@
 import { IdentifyOptions } from 'types/identify';
-import { isCanvasSupported } from 'utils/identify';
 
 export function canvasSource(options: IdentifyOptions) {
-	if (!isCanvasSupported()) return '';
+	let winding = false;
+	let geometry: string;
+	let text: string;
 
-	const canvasFpParts = [];
+	const [canvas, context] = makeCanvasContext();
+	if (!isSupported(canvas, context)) {
+		geometry = text = '';
+	} else {
+		winding = doesSupportWinding(context);
 
-	// Create a temporary canvas element
+		renderTextImage(canvas, context);
+		const textImage1 = canvasToString(canvas);
+		const textImage2 = canvasToString(canvas);
+
+		if (textImage1 !== textImage2) {
+			geometry = text = 'unstable';
+		} else {
+			text = textImage1;
+
+			renderGeometryImage(canvas, context);
+			geometry = canvasToString(canvas);
+		}
+	}
+
+	return { winding, geometry, text };
+}
+
+function makeCanvasContext() {
 	const canvas = document.createElement('canvas');
-	canvas.width = 2000;
-	canvas.height = 200;
-	canvas.style.display = 'inline';
+	canvas.width = 1;
+	canvas.height = 1;
+	return [canvas, canvas.getContext('2d')] as const;
+}
 
-	const context = canvas.getContext('2d');
-	if (!context) return '';
+function isSupported(
+	canvas: HTMLCanvasElement,
+	context?: CanvasRenderingContext2D | null
+): context is CanvasRenderingContext2D {
+	return !!(context && canvas.toDataURL);
+}
 
-	// Draw rectangles on the canvas
+function doesSupportWinding(context: CanvasRenderingContext2D) {
 	context.rect(0, 0, 10, 10);
 	context.rect(2, 2, 6, 6);
+	return !context.isPointInPath(5, 5, 'evenodd');
+}
 
-	// Check if the canvas winding is 'evenodd'
-	canvasFpParts.push(
-		'canvas winding:' +
-			(context.isPointInPath(5, 5, 'evenodd') === false ? 'yes' : 'no')
-	);
+function renderTextImage(
+	canvas: HTMLCanvasElement,
+	context: CanvasRenderingContext2D
+) {
+	canvas.width = 240;
+	canvas.height = 60;
 
-	// Draw text on the canvas
 	context.textBaseline = 'alphabetic';
 	context.fillStyle = '#f60';
-	context.fillRect(125, 1, 62, 20);
+	context.fillRect(100, 1, 62, 20);
+
 	context.fillStyle = '#069';
-	options.dontUseFakeFontInCanvas
-		? (context.font = '11pt Arial')
-		: (context.font = '11pt no-real-font-123');
-	context.fillText('Cwm fjordbank glyphs vext quiz, \ud83d\ude03', 2, 15);
+	context.font = '11pt "Times New Roman"';
+
+	const printedText = `Cwm fjordbank gly ${
+		String.fromCharCode(55357, 56835) /* 😃 */
+	}`;
+
+	context.fillText(printedText, 2, 15);
 	context.fillStyle = 'rgba(102, 204, 0, 0.2)';
 	context.font = '18pt Arial';
-	context.fillText('Cwm fjordbank glyphs vext quiz, \ud83d\ude03', 4, 45);
+	context.fillText(printedText, 4, 45);
+}
 
-	// Draw circles on the canvas
+function renderGeometryImage(
+	canvas: HTMLCanvasElement,
+	context: CanvasRenderingContext2D
+) {
+	canvas.width = 122;
+	canvas.height = 110;
+
 	context.globalCompositeOperation = 'multiply';
-	context.fillStyle = 'rgb(255,0,255)';
-	context.beginPath();
-	context.arc(50, 50, 50, 0, 2 * Math.PI, true);
-	context.closePath();
-	context.fill();
+	for (const [color, x, y] of [
+		['#f2f', 40, 40],
+		['#2ff', 80, 40],
+		['#ff2', 60, 80],
+	] as const) {
+		context.fillStyle = color;
+		context.beginPath();
+		context.arc(x, y, 40, 0, Math.PI * 2, true);
+		context.closePath();
+		context.fill();
+	}
 
-	context.fillStyle = 'rgb(0,255,255)';
-	context.beginPath();
-	context.arc(100, 50, 50, 0, 2 * Math.PI, true);
-	context.closePath();
-	context.fill();
-
-	context.fillStyle = 'rgb(255,255,0)';
-	context.beginPath();
-	context.arc(75, 100, 50, 0, 2 * Math.PI, true);
-	context.closePath();
-	context.fill();
-
-	context.fillStyle = 'rgb(255,0,255)';
-	context.arc(75, 75, 75, 0, 2 * Math.PI, true);
-	context.arc(75, 75, 25, 0, 2 * Math.PI, true);
+	context.fillStyle = '#f9c';
+	context.arc(60, 60, 60, 0, Math.PI * 2, true);
+	context.arc(60, 60, 20, 0, Math.PI * 2, true);
 	context.fill('evenodd');
+}
 
-	// Push the canvas fingerprint data (toDataURL) to the array
-	canvasFpParts.push('canvas fp:' + canvas.toDataURL());
-
-	return canvasFpParts.join('~');
+function canvasToString(canvas: HTMLCanvasElement) {
+	return canvas.toDataURL();
 }

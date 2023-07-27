@@ -1,14 +1,22 @@
-import { Data } from 'types/identify';
+import { Data, DataKey } from 'types/identify';
+
+const customExcluded: DataKey[] = [
+	'availableScreenResolution',
+	'screenResolution',
+	'screenFrame',
+];
 
 export function stringifyData(data: Data[]) {
 	return data
 		.compact()
+		.filter((data) => !customExcluded.includes(data.key))
 		.map((item: Data) => {
-			return typeof (item?.value as any).join !== 'undefined'
-				? (item.value as string[]).join(';')
-				: item?.value;
+			const key = item.key;
+			const value = JSON.stringify(item.value);
+
+			return `${key}:${value}`;
 		})
-		.join('~~~');
+		.join('|');
 }
 
 export function isCanvasSupported() {

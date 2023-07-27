@@ -4,9 +4,9 @@ export const defaultOptions: IdentifyOptions = {
 	swfContainerId: 'identifyzerjs',
 	swfPath: 'flash/compiled/FontList.swf',
 	detectScreenOrientation: true,
-	sortPluginsFor: [/palemoon/i],
 	userDefinedFonts: [],
 	extendedJsFonts: true,
+	exclude: [],
 };
 
 export const standardFonts = ['monospace', 'sans-serif', 'serif'];
