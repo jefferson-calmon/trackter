@@ -1,3 +1,5 @@
+import { BotDetectionResult } from "./bot";
+
 export interface IdentifyOptions {
 	exclude?: DataKey[];
 	detectScreenOrientation?: boolean;
@@ -13,6 +15,7 @@ export interface IdentifyResult {
 	identifier: string | null;
 	confidence: number;
 	data: Record<DataKey, DataValue>;
+    bot: BotDetectionResult;
 	toString: () => string;
 }
 

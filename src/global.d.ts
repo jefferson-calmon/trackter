@@ -17,6 +17,15 @@ interface ApplePaySessionConstructor {
 	canMakePayments(): boolean;
 }
 
+interface NetworkInformation extends EventTarget {
+	readonly rtt: number;
+}
+
+interface NavigatorUAData {
+	readonly brands?: Array<Record<string, string>>;
+	readonly mobile: boolean;
+}
+
 interface HTMLAnchorElement {
 	// See https://webkit.org/blog/11529/introducing-private-click-measurement-pcm/
 	attributionSourceId?: number;
@@ -25,6 +34,8 @@ interface HTMLAnchorElement {
 }
 
 interface Navigator {
+	readonly connection?: NetworkInformation;
+	readonly userAgentData?: NavigatorUAData;
 	oscpu?: string;
 	userLanguage?: string;
 	browserLanguage?: string;

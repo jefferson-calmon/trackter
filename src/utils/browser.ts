@@ -1,4 +1,86 @@
+import { BrowserEngineType, BrowserType } from 'types/bot';
 import { countTruthy } from './data';
+import { strIncludes } from './ponyfills';
+
+export function getBrowserEngineType(): BrowserEngineType {
+	// Based on research in October 2020. Tested to detect Chromium 42-86.
+	const w = window;
+	const n = navigator;
+
+	if (
+		countTruthy([
+			'webkitPersistentStorage' in n,
+			'webkitTemporaryStorage' in n,
+			n.vendor.indexOf('Google') === 0,
+			'webkitResolveLocalFileSystemURL' in w,
+			'BatteryManager' in w,
+			'webkitMediaStream' in w,
+			'webkitSpeechGrammar' in w,
+		]) >= 5
+	) {
+		return BrowserEngineType.Chromium;
+	}
+
+	if (
+		countTruthy([
+			'ApplePayError' in w,
+			'CSSPrimitiveValue' in w,
+			'Counter' in w,
+			n.vendor.indexOf('Apple') === 0,
+			'getStorageUpdates' in n,
+			'WebKitMediaKeys' in w,
+		]) >= 4
+	) {
+		return BrowserEngineType.Webkit;
+	}
+
+	if (
+		countTruthy([
+			'buildID' in navigator,
+			'MozAppearance' in (document.documentElement?.style ?? {}),
+			'onmozfullscreenchange' in w,
+			'mozInnerScreenX' in w,
+			'CSSMozDocumentRule' in w,
+			'CanvasCaptureMediaStream' in w,
+		]) >= 4
+	) {
+		return BrowserEngineType.Gecko;
+	}
+
+	return BrowserEngineType.Unknown;
+}
+
+export function getBrowserType(): BrowserType {
+	const userAgent = navigator.userAgent?.toLowerCase();
+	if (strIncludes(userAgent, 'wechat')) {
+		return BrowserType.WeChat;
+	} else if (strIncludes(userAgent, 'firefox')) {
+		return BrowserType.Firefox;
+	} else if (
+		strIncludes(userAgent, 'opera') ||
+		strIncludes(userAgent, 'opr')
+	) {
+		return BrowserType.Opera;
+	} else if (strIncludes(userAgent, 'chrome')) {
+		return BrowserType.Chrome;
+	} else if (strIncludes(userAgent, 'safari')) {
+		return BrowserType.Safari;
+	} else if (
+		strIncludes(userAgent, 'trident') ||
+		strIncludes(userAgent, 'msie')
+	) {
+		return BrowserType.IE;
+	} else {
+		return BrowserType.Unknown;
+	}
+}
+
+export function getDocumentFocus(): boolean {
+	if (document.hasFocus === undefined) {
+		return false;
+	}
+	return document.hasFocus();
+}
 
 /*
  * Functions to help with features that vary through browsers

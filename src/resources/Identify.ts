@@ -5,6 +5,7 @@ import * as S from 'sources/identify';
 import * as Browser from '../utils/browser';
 import { hashing } from '../utils/hashing';
 import { arrayToObject } from 'utils/data';
+import BotDetector from './BotDetector';
 
 export class Identify {
 	private options = C.defaultOptions;
@@ -32,6 +33,7 @@ export class Identify {
 		const dataString = U.stringifyData(components);
 
 		const confidence = this.confidence(String(data.platform));
+		const bot = await new BotDetector().detect();
 
 		const hash = hashing.x64hash128(dataString, 31);
 		const identifier = await hashing.x64mini128(dataString);
@@ -41,6 +43,7 @@ export class Identify {
 			identifier,
 			confidence,
 			data,
+			bot,
 			toString: () => dataString,
 		};
 
