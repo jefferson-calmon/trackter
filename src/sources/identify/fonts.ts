@@ -2,7 +2,7 @@ import { extendedFonts, standardFonts } from 'constants/identify';
 import { IdentifyOptions } from 'types/identify';
 
 export async function fontsSource(options: IdentifyOptions) {
-	return options.excludeJsFonts
+	return options.extendedJsFonts
 		? await flashFontsKey(options)
 		: await jsFontsKey(options);
 }
@@ -124,7 +124,7 @@ function loadSwfAndDetectFonts(
 	options: IdentifyOptions,
 	callback: (fonts: string[]) => void
 ) {
-	const swfLoadedCallback = '___identifyzer_swf_loaded';
+	const swfLoadedCallback = '___trackter_swf_loaded';
 
 	window[swfLoadedCallback] = function (fonts: string[]) {
 		callback(fonts);

@@ -12,7 +12,7 @@ export interface IdentifyOptions {
 
 export interface IdentifyResult {
 	hash: string;
-	identifier: string | null;
+	id: string | null;
 	confidence: number;
 	data: Record<DataKey, DataValue>;
     bot: BotDetectionResult;

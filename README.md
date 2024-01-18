@@ -1,6 +1,6 @@
-# Identifyzer
+# Trackter
 
-Identifyzer is a lightweight JavaScript library for generating unique browser fingerprints, enabling secure user identification and behavior analysis.
+Trackter is a lightweight JavaScript library for generating unique browser fingerprints, enabling secure user identification and behavior analysis.
 
 ## Features
 
@@ -15,22 +15,22 @@ Identifyzer is a lightweight JavaScript library for generating unique browser fi
 Install the package using npm:
 
 ```bash
-npm install identifyzer
+npm install trackter
 ```
 
 Or using yarn:
 
 ```bash
-yarn add identifyzer
+yarn add trackter
 ```
 
 ## Usage
 
 ```javascript
-import Identifyzer from 'identifyzer';
+import trackter from 'trackter';
 
 // Generate a fingerprint
-const fingerprint = new Identifyzer().identify();
+const fingerprint = trackter.identify();
 
 console.log('User fingerprint:', fingerprint);
 ```

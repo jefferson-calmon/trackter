@@ -1,25 +1,15 @@
 import { config } from './config';
-import { IdentifyOptions } from 'types/identify';
-import { BotDetectOptions } from 'types/bot';
 
-import Identify from './resources/Identify';
-import Geolocation from './resources/Geolocation';
-import BotDetector from 'resources/BotDetector';
+import * as Identification from './resources/Identification';
+import * as Geolocation from './resources/Geolocation';
+import * as BotDetection from 'resources/BotDetection';
 
 config();
 
-export class Identifyzer {
-	async identify(options?: IdentifyOptions) {
-		return await new Identify().identify(options);
-	}
-
-	async geolocation() {
-		return await new Geolocation().geolocation();
-	}
-
-	async botDetection(options?: BotDetectOptions) {
-		return await new BotDetector().detect(options);
-	}
+export const trackter = {
+    identify: Identification.identify,
+    geolocation: Geolocation.geolocation,
+    botDetection: BotDetection.detect,
 }
 
-export default Identifyzer;
+export default trackter;

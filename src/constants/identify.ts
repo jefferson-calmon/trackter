@@ -1,7 +1,7 @@
 import { IdentifyOptions } from '../types/identify';
 
 export const defaultOptions: IdentifyOptions = {
-	swfContainerId: 'identifyzerjs',
+	swfContainerId: 'trackterjs',
 	swfPath: 'flash/compiled/FontList.swf',
 	detectScreenOrientation: true,
 	userDefinedFonts: [],

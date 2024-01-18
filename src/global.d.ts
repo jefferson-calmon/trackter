@@ -5,7 +5,7 @@ interface Window {
 	doNotTrack: string;
 	openDatabase?(...args: unknown[]): void;
 	swfobject: any;
-	___identifyzer_swf_loaded: (fonts: string[]) => void;
+	___trackter_swf_loaded: (fonts: string[]) => void;
 
 	ApplePaySession?: ApplePaySessionConstructor;
 }
