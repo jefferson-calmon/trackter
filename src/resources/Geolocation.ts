@@ -12,14 +12,12 @@ export async function geolocation() {
 		});
 		const { ip }: T.MyIpResponse = await ipResponse.json();
 
-		const geoResponse = await fetch(`https://ipapi.co/${ip}/json`, {
-			mode: 'no-cors',
-		});
+		const geoResponse = await fetch(`https://ipapi.co/${ip}/json`);
 		const data: T.IpApiResponse = await geoResponse.json();
 
 		return data;
 	} catch (error) {
-		console.error(error);
+		console.error('Geolocation Error', error);
 		return null;
 	}
 }
