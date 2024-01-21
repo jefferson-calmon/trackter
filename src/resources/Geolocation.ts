@@ -1,9 +1,16 @@
 import * as T from '../types/geolocation';
 
 export async function geolocation() {
-    const response = await fetch('http://ip-api.com/json?fields=66846719');
+	try {
+		const ipResponse = await fetch('https://api.myip.com/');
+		const { ip }: T.MyIpResponse = await ipResponse.json();
 
-    const data: T.GeoLocationData = await response.json();
+		const geoResponse = await fetch(`https://ipapi.co/${ip}/json`);
+		const data: T.IpApiResponse = await geoResponse.json();
 
-    return data;
+		return data;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
 }
