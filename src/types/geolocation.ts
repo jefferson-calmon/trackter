@@ -1,4 +1,4 @@
-export interface IpApiResponse {
+export interface IpApi2Response {
 	query: string; // IP address
 	status: string; // Status of the geolocation request
 	continent: string; // Contienent name
