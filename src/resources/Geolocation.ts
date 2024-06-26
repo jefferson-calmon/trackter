@@ -1,5 +1,7 @@
 import * as T from '../types/geolocation';
 
+export type Geolocation = T.IpApiResponse
+
 export async function geolocation() {
 	/**
 	 * https://api.sefinek.net/api/v2/geoip/209.14.149.25
@@ -13,7 +15,7 @@ export async function geolocation() {
 		const { ip }: T.MyIpResponse = await ipResponse.json();
 
 		const geoResponse = await fetch(`https://ipapi.co/${ip}/json`);
-		const data: T.IpApiResponse = await geoResponse.json();
+		const data: Geolocation = await geoResponse.json();
 
 		return data;
 	} catch (error) {

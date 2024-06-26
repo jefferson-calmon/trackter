@@ -4,6 +4,8 @@ import * as Identification from './resources/Identification';
 import * as Geolocation from './resources/Geolocation';
 import * as BotDetection from 'resources/BotDetection';
 
+export { Geolocation } from 'resources/Geolocation';
+
 config();
 
 export const trackter = {

@@ -59,5 +59,3 @@ export interface IpApiResponse {
 	asn: string;
 	org: string;
 }
-
-// export type GeoLocationData =
