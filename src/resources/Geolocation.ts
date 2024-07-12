@@ -16,7 +16,7 @@ export const services: Record<T.Service, T.ServiceCallback> = {
 
 export async function geolocation(props: T.GeolocationProps) {
 	try {
-		let ip: string = '';
+		let ip: string = props.ip ?? '';
 
 		if (!props.ip) {
 			await fetch('https://api.ipify.org/?format=json')
