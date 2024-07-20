@@ -45,8 +45,9 @@ function createGeolocationData(data: Partial<T.ServiceResponse>) {
 
 		postal: data?.postal ?? data?.zip ?? null,
 		city: data?.city ?? '',
-		region: data.regionName ?? data?.region ?? '',
-		regionCode: data?.region_code ?? data.region ?? '',
+		region: data.regionName ?? data?.region ?? data.stateProv ?? '',
+		regionCode:
+			data?.region_code ?? data.region ?? data.stateProvCode ?? '',
 		country: data?.country ?? data.countryName ?? '',
 		countryCode: data?.countryCode ?? data.country_code ?? '',
 		continent: data?.continent ?? data.continentName ?? '',
